@@ -1,7 +1,7 @@
 library(tidyverse)
 
 my_data <- read.csv("IPEDS_data.csv") %>%
-  select(2, 5, 7:8, 22:24, 27:34, 65, 70:73, 75, 78, 86, 111, 124, 126, 128, 131, 134)
+  select(2, 5, 7:8, 22:24, 27:30, 33, 34, 65, 70:73, 75, 78, 86, 111, 124, 126, 128, 131, 134)
 
 my_data <- my_data %>% 
   rename(High.Degree = Highest.degree.offered,
@@ -14,8 +14,6 @@ my_data <- my_data %>%
          SAT.Reading.75 = SAT.Critical.Reading.75th.percentile.score,
          SAT.Math.25 = SAT.Math.25th.percentile.score,
          SAT.Math.75 = SAT.Math.75th.percentile.score,
-         SAT.Writing.25 = SAT.Writing.25th.percentile.score,
-         SAT.Writing.75 = SAT.Writing.75th.percentile.score,
          ACT.25 = ACT.Composite.25th.percentile.score,
          ACT.75 = ACT.Composite.75th.percentile.score,
          Percent.Admitted = Percent.admitted...total,
@@ -25,7 +23,7 @@ my_data <- my_data %>%
          State = State.abbreviation,
          Region = Geographic.region,
          Control = Control.of.institution,
-         TEnrollemend = Undergraduate.enrollment,
+         TEnrollment = Undergraduate.enrollment,
          Percent.Women = Percent.of.undergraduate.enrollment.that.are.women,
          Pecent.Instate = Percent.of.first.time.undergraduates...in.state,
          Percent.Outstate = Percent.of.first.time.undergraduates...out.of.state,
