@@ -1,16 +1,9 @@
-setwd("~/Documents/GitHub/CS324IndividualProject")
-
-#libraries
 library(tidyverse)
-library(dplyr) #ranking frequency
-library(grDevices) #png function
-library(wordcloud) #wordcloud
-library(RColorBrewer) #brewer colors
 
-col_dat <- read.csv("IPEDS_data.csv") %>%
+my_data <- read.csv("IPEDS_data.csv") %>%
   select(2, 5, 7:8, 22:24, 27:30, 33, 34, 65, 70:73, 75, 78, 86, 111, 124, 126, 128, 131, 134)
 
-col_dat <- col_dat %>% 
+my_data <- my_data %>% 
   rename(High.Degree = Highest.degree.offered,
          Longitude = Longitude.location.of.institution,
          Latitude = Latitude.location.of.institution,
@@ -37,27 +30,20 @@ col_dat <- col_dat %>%
          Percent.Foreign = Percent.of.first.time.undergraduates...foreign.countries,
          GradRate.4yr = Graduation.rate...Bachelor.degree.within.4.years..total,
          Percent.Finan.Aid = Percent.of.freshmen.receiving.any.financial.aid
-  )
+         )
 
-#scatterplot
-#col_scat <- col_dat[order(col_dat$Percent.Admitted) %>% head(300),]
-png(file = "scatterplot.png")
-plot(col_scat$Tuition, col_scat$Percent.Finan.Aid,
-     xlab="Tuition",
-     ylab = "Financial Aid Rate",
-     #xlim = c(12, 36),
-     #ylim = c(1, 60),
-     main = "Tuition vs Number of freshmen receiving financial aid")
+# What to filter: Name, 
+filter(my_data, my_data$SAT.Reading.75 > 780 & my_data$Percent.Women > 40)
+filter(my_data, my_data$ACT.25 > 33 | my_data$SAT.Math.75 > 760 & my_data$Percent.Admitted > 20)
+filter(my_data, my_data$Pecent.Instate < 40, my_data$Percent.Foreign > 15)
+filter(my_data, my_data$Percent.Finan.Aid > 60, my_data$TEnrollemend < 1000, my_data$Control == "Public")
+
+hist(my_data$Percent.Admitted)
+
+
+#QR Code
+library(qrcode)
+png("qr.png")
+code <- qr_code("https://boiling-brook-84278.herokuapp.com/")
+plot(code, c("green", "blue"))
 dev.off()
-
-#wordcloud
-col_dat <- col_dat[col_dat$TEnrollment != "",]
-col_table <- col_dat[order(-col_dat$TEnrollment) %>% head(40),]
-col_table <- select(col_table, 1, 21)
-
-png("wordcloud.png", width=25, height=18, units = 'in', res = 300)
-par(mar = rep(0, 4))
-set.seed(1337)
-wordcloud(words = col_table$Name, freq = col_table$TEnrollment, scale = c(3.5, 0.25),
-          max.words=200, colors=brewer.pal(8, "Dark2"))
-
