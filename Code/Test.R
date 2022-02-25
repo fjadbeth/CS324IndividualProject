@@ -1,6 +1,6 @@
 library(tidyverse)
 
-my_data <- read.csv("IPEDS_data.csv") %>%
+my_data <- read.csv("Dataset/IPEDS_data.csv") %>%
   select(2, 5, 7:8, 22:24, 27:30, 33, 34, 65, 70:73, 75, 78, 86, 111, 124, 126, 128, 131, 134)
 
 my_data <- my_data %>% 
@@ -32,18 +32,36 @@ my_data <- my_data %>%
          Percent.Finan.Aid = Percent.of.freshmen.receiving.any.financial.aid
          )
 
-# What to filter: Name, 
-filter(my_data, my_data$SAT.Reading.75 > 780 & my_data$Percent.Women > 40)
-filter(my_data, my_data$ACT.25 > 33 | my_data$SAT.Math.75 > 760 & my_data$Percent.Admitted > 20)
-filter(my_data, my_data$Pecent.Instate < 40, my_data$Percent.Foreign > 15)
-filter(my_data, my_data$Percent.Finan.Aid > 60, my_data$TEnrollemend < 1000, my_data$Control == "Public")
+vars <- select_if(my_data, is.numeric)
+plot1 <- plot_ly(vars, x = vars$Enrolled, y = vars$Admissions, type = "scatter", mode = "markers")
+plot1
 
-hist(my_data$Percent.Admitted)
+# What to filter: Name, 
+# filter(my_data, my_data$SAT.Reading.75 > 780 & my_data$Percent.Women > 40)
+# filter(my_data, my_data$ACT.25 > 33 | my_data$SAT.Math.75 > 760 & my_data$Percent.Admitted > 20)
+# filter(my_data, my_data$Pecent.Instate < 40, my_data$Percent.Foreign > 15)
+# filter(my_data, my_data$Percent.Finan.Aid > 60, my_data$TEnrollemend < 1000, my_data$Control == "Public")
+# 
+# hist(my_data$Percent.Admitted)
 
 
 #QR Code
-library(qrcode)
-png("qr.png")
-code <- qr_code("https://boiling-brook-84278.herokuapp.com/")
-plot(code, c("green", "blue"))
-dev.off()
+# library(qrcode)
+# png("qr.png")
+# code <- qr_code("https://boiling-brook-84278.herokuapp.com/")
+# plot(code, c("green", "blue"))
+# dev.off()
+
+# Cowsay
+# library(cowsay)
+# library(crayon)
+# say("Using our " %+% bgYellow("eyes") %+% " to switch between different views that are " %+% bgCyan("visible") %+% " simultaneously has " %+% red$underline("much lower cognitive load") %+% " than consulting our memory to " %+% green$bold("compare") %+% " a current view with what was seen before. (Munzner and Maguire, 2015, p. 131)",
+#     by = "turkey",
+#     what_color = "black",
+#     by_color = "brown")
+
+# say(what = "fortune",
+#     by = "yoda", 
+#     what_color = "olivedrab",
+#     by_color = "green")
+# say("Q: What animal is best at hitting a baseball?\nA: A bat", by = "bat")

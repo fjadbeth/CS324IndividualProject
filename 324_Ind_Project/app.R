@@ -7,33 +7,114 @@
 #    http://shiny.rstudio.com/
 #
 
+# Libaries
 library(shiny)
+library(leaflet)
+library(RColorBrewer)
+library(scales)
+library(lattice)
+library(dplyr)
+library(plotly)
+library(ggplot2)
+library(DT)
 
-# Define UI for application that draws a histogram
-ui <- navbarPage("Title",
-  tabPanel("Map",
-           #map output here
+# Importing data set
+data <- read.csv('data/college_data.csv')
+
+# Define UI for application
+vars <- select_if(data, is.numeric)
+
+ui <- navbarPage("College Explorer", id="nav",
+  tabPanel("Interactive map",
+           leafletOutput("map", width="100%", height=600),
            ),
   tabPanel("Plot",
-           #plot output here
+           sidebarPanel(
+             selectizeInput('xcol', 'X Variable', colnames(vars)[2:length(vars)], selected = colnames(vars)[1]),
+             selectizeInput('ycol', 'Y Variable', colnames(vars)[2:length(vars)], selected = colnames(vars[3]))
+             ),
+           mainPanel(
+             plotlyOutput('plot'))
            ),
+  # Third parameter needs to get changed. 
   tabPanel("Data Explore",
-           #data here
+           fluidRow(
+             column(4,
+                    selectizeInput("highDeg",
+                                "Highest Degree:",
+                                c("All",
+                                  unique(as.character(data$Highest.degree.offered))))
+             ),
+             column(4,
+                    selectizeInput("state",
+                                "State:",
+                                c("All",
+                                  unique(as.character(data$State.abbreviation))))
+             ),
+             column(4,
+                    selectizeInput("reg",
+                                "Region:",
+                                c("All",
+                                  unique(as.character(data$Geographic.region))))
+             )
+           ),
+           # Create a new row for the table.
+           DT::dataTableOutput("table")
            )
 )
 
+
 # Define server logic required to draw a histogram
-server <- function(input, output) {
+map_data <- data %>% 
+  select(Longitude, Latitude, Name)
 
-    output$distPlot <- renderPlot({
-        # generate bins based on input$bins from ui.R
-        x    <- faithful[, 2]
-        bins <- seq(min(x), max(x), length.out = input$bins + 1)
-
-        # draw the histogram with the specified number of bins
-        hist(x, breaks = bins, col = 'darkgray', border = 'white')
-    })
+server <- function(input, output, session) {
+  
+  mypopup <- paste("Name: ", map_data$Name,"</br>",
+                   "Region: ", map_data$Region)
+  
+  # Map
+  output$map <- renderLeaflet({
+    leaflet() %>%
+      addProviderTiles(providers$CartoDB.Positron,
+                       options = providerTileOptions(noWrap = TRUE, minZoom = 3)
+      ) %>% 
+      addMarkers(data = map_data, lng = ~Longitude,
+                 lat = ~Latitude,
+                 label = ~Name,
+                 popup = mypopup,
+                 clusterOptions = markerClusterOptions()) %>% 
+      setView(lng = -98.35, lat = 39.5, zoom = 3) %>% 
+      setMaxBounds(lng1 = -120, lng2 = -60, lat1 = 0, lat2 = 70)
+    
+  })
+  
+  # Scatterplot
+  output$plot <- renderPlotly({
+    # palette(c("#E41A1C", "#377EB8"))
+    x <- input$xcol
+    y <- input$ycol
+    # Scatterplot not working properly
+    plot1 <- plot_ly(vars, x = ~x, y = ~y, type = "scatter", mode = "markers")
+    plot1
+  })
+  
+  # Table
+  output$table <- DT::renderDataTable(DT::datatable({
+    dat <- data
+    if (input$highDeg != "All") {
+      dat <- data[data$Highest.degree.offered == input$highDeg,]
+    }
+    if (input$state != "All") {
+      dat <- data[data$State.abbreviation == input$state,]
+    }
+    if (input$reg != "All") {
+      dat <- data[data$Geographic.region == input$reg,]
+    }
+    dat
+  }))
 }
+
 
 # Run the application 
 shinyApp(ui = ui, server = server)
