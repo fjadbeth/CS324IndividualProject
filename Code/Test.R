@@ -36,6 +36,9 @@ vars <- select_if(my_data, is.numeric)
 plot1 <- plot_ly(vars, x = vars$Enrolled, y = vars$Admissions, type = "scatter", mode = "markers")
 plot1
 
+typeof(my_data$ACT.75)
+
+word(my_data$Region, 1)
 # What to filter: Name, 
 # filter(my_data, my_data$SAT.Reading.75 > 780 & my_data$Percent.Women > 40)
 # filter(my_data, my_data$ACT.25 > 33 | my_data$SAT.Math.75 > 760 & my_data$Percent.Admitted > 20)

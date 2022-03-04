@@ -17,12 +17,23 @@ library(dplyr)
 library(plotly)
 library(ggplot2)
 library(DT)
+library(shinyWidgets)
+library(stringr)
 
 # Importing data set
 data <- read.csv('data/college_data.csv')
 
+# data$Region <- with(data, 
+#                     ifelse(data$Region == "Southeast" || data$Region == "Southwest" || data$Region == "Plains",
+#                     word(data$Region, 1),
+#                     ifelse(data$Region == "US Service schools", word(data$Region, 1, 3), word(data$Region, 1, 2))))
+
+deg_choice <- unique(data$Highest.degree.offered)
 # Define UI for application
 vars <- select_if(data, is.numeric)
+
+# Data for table
+tableData <- data %>% select(-1)
 
 ui <- navbarPage("College Explorer", id="nav",
   tabPanel("Interactive map",
@@ -39,24 +50,37 @@ ui <- navbarPage("College Explorer", id="nav",
   # Third parameter needs to get changed. 
   tabPanel("Data Explore",
            fluidRow(
-             column(4,
-                    selectizeInput("highDeg",
-                                "Highest Degree:",
-                                c("All",
-                                  unique(as.character(data$Highest.degree.offered))))
-             ),
-             column(4,
-                    selectizeInput("state",
-                                "State:",
-                                c("All",
-                                  unique(as.character(data$State.abbreviation))))
-             ),
-             column(4,
-                    selectizeInput("reg",
-                                "Region:",
-                                c("All",
-                                  unique(as.character(data$Geographic.region))))
-             )
+             column(6, 
+             pickerInput(
+               inputId = "myPicker", 
+               label = "Select/deselect all + format selected", 
+               choices = colnames(tableData), 
+               options = list(
+                 `actions-box` = TRUE,
+                 size = 10,
+                 `selected-text-format` = "count > 3"
+               ),
+               multiple = TRUE
+             ))
+             
+             # column(4,
+             #        selectInput("highDeg",
+             #                    "Highest Degree:",
+             #                    c("All", 
+             #                      unique(as.character(data$Highest.degree.offered))))
+             # ),
+             # column(4,
+             #        selectizeInput("state",
+             #                    "State:",
+             #                    c("All",
+             #                      unique(as.character(data$State.abbreviation))))
+             # ),
+             # column(4,
+             #        selectizeInput("reg",
+             #                    "Region:",
+             #                    c("All",
+             #                      unique(as.character(data$Geographic.region))))
+             # )
            ),
            # Create a new row for the table.
            DT::dataTableOutput("table")
@@ -94,24 +118,35 @@ server <- function(input, output, session) {
     # palette(c("#E41A1C", "#377EB8"))
     x <- input$xcol
     y <- input$ycol
+    
     # Scatterplot not working properly
-    plot1 <- plot_ly(vars, x = ~x, y = ~y, type = "scatter", mode = "markers")
-    plot1
+    plot_ly(vars, x = ~get(x), y = ~get(y), type = "scatter", mode = "markers") %>% 
+      layout(title = paste(x, " vs. ", y),
+             xaxis = list(title = x),
+             yaxis = list(title = y))
+    
   })
   
   # Table
   output$table <- DT::renderDataTable(DT::datatable({
-    dat <- data
-    if (input$highDeg != "All") {
-      dat <- data[data$Highest.degree.offered == input$highDeg,]
+    # dat <- tableData
+    # if (input$highDeg != "All") {
+    #   dat <- data[data$Highest.degree.offered == input$highDeg,]
+    # }
+    # if (input$state != "All") {
+    #   dat <- data[data$State.abbreviation == input$state,]
+    # }
+    # if (input$reg != "All") {
+    #   dat <- data[data$Geographic.region == input$reg,]
+    # }
+    # dat
+    cols = colnames(tableData)
+    if (!is.null(input$myPicker)) {
+      cols = input$myPicker
     }
-    if (input$state != "All") {
-      dat <- data[data$State.abbreviation == input$state,]
-    }
-    if (input$reg != "All") {
-      dat <- data[data$Geographic.region == input$reg,]
-    }
-    dat
+    tableData[,cols,drop=FALSE]
+    options = list(scrollX = TRUE, sScrollY = '75vh', scrollCollapse = TRUE)
+    extensions = list("Scroller")
   }))
 }
 

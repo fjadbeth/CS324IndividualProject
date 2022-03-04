@@ -1,0 +1,67 @@
+Week 1: (6 hours)
+- Figured out what I want to do for my project and which data set to work on
+- Made a GitHub repository and shared access with the professor
+- Attached the release of liability
+- Started looking through some datasets to use for the project
+
+
+Week 2: (7 hours)
+- Looked through projects from previous semester and got some inspiration 
+- Narrowed down to college data set to work on 
+- Started thinking about what kind of questions and visualization can be used for the project
+- Started watching RShiny Tutorial and learning basics about it
+- Submitted data set discussion
+
+
+Week 3 (8 hours):
+- Added csv file to work in GitHub
+- Started playing around with the data set and considered how to tidy data
+- Watched RShiny tutorial 
+- Started exploring and reading through R packages that could be useful for the project 
+	- ggplot2
+	- Lattice
+	- Leaflet
+	- RColorBrewer
+	- Plotly
+	- dygraphs
+
+
+Week 4 (9 hours):
+- Continued watching RShiny tutorials
+- Explored RShiny Gallery and looked for visualization that could also used in my project
+- Renamed variables 
+- Selected relevant variables in the data set and getting rid of the ones unnecessary 
+- Got rid of irrelevant information from the data set that I found out later 
+- Fixed typos on the variable name 
+- Submitted working schedule
+- Created RShiny file
+- Added panel tabs 
+- Moved around things on GitHub to be more organized
+- Started thinking about what the app would look like 
+- Wrote a potential design of the app
+
+
+Week 5 (8 hours):
+- Went to RShiny Gallery to get some inspirations 
+- Saved tidied version of the data set
+- Created a numeric data to use it for my scatterplot visualization 
+- Added a scatterplot using Plotly
+- Read Plotly documentation and watched videos
+- Dealt with issues passing x and y argument to plot_ly() function 
+- Added labels to the scatterplot
+- My plan for next week:
+	- Work on having the table working
+
+
+Week 6: (9 hours)
+- Went to RShiny Gallery to get some inspirations
+- Read DataTable package documentation 
+- Implemented simple DT in the beginning
+- Fixed the filtering feature in the plot section and made sure that the plots are shown on the screen appropriately
+- Added select/deselect options at the top and have that working in the data explorer section
+- Identified some of the issues that needs to get fixed such as:
+	- Region values needs to get fixed
+	- Have the name column always shown on the screen instead of having users select it
+	- Need to wrap around when using tables
+	- The hovering feature in map needs to be functional
+- Continue attempting to figure out bugs to solve issues mentioned above 
