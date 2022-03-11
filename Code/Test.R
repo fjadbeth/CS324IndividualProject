@@ -32,11 +32,7 @@ my_data <- my_data %>%
          Percent.Finan.Aid = Percent.of.freshmen.receiving.any.financial.aid
          )
 
-vars <- select_if(my_data, is.numeric)
-plot1 <- plot_ly(vars, x = vars$Enrolled, y = vars$Admissions, type = "scatter", mode = "markers")
-plot1
-
-typeof(my_data$ACT.75)
+test <- filter(data, Region %in% c("New England", "Southeast"))
 
 word(my_data$Region, 1)
 # What to filter: Name, 

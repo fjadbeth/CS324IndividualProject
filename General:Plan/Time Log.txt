@@ -1,23 +1,22 @@
 Week 1: (6 hours)
-- Figured out what I want to do for my project and which data set to work on
-- Made a GitHub repository and shared access with the professor
-- Attached the release of liability
-- Started looking through some datasets to use for the project
+- Figured out what I want to do for my project and which data set to work on (3.5 hour)
+- Made a GitHub repository and shared access with the professor and attached the release of liability (0.5 hour)
+- Started looking through some datasets to use for the project (2 hours)
 
 
 Week 2: (7 hours)
-- Looked through projects from previous semester and got some inspiration 
-- Narrowed down to college data set to work on 
-- Started thinking about what kind of questions and visualization can be used for the project
-- Started watching RShiny Tutorial and learning basics about it
-- Submitted data set discussion
+- Looked through projects from previous semester and got some inspiration (1 hour)
+- Narrowed down to college data set to work on (0.5 hour)
+- Started thinking about what kind of questions and visualization can be used for the project (2 hours)
+- Started watching RShiny Tutorial and learning basics about it (3 hours)
+- Submitted data set discussion (0.5 hour)
 
 
 Week 3 (8 hours):
-- Added csv file to work in GitHub
-- Started playing around with the data set and considered how to tidy data
-- Watched RShiny tutorial 
-- Started exploring and reading through R packages that could be useful for the project 
+- Added csv file to work in GitHub (0.5 hour)
+- Started playing around with the data set and considered how to tidy data (1.5 hours)
+- Watched RShiny tutorial (4 hours)
+- Started exploring and reading through R packages that could be useful for the project (2 hours)
 	- ggplot2
 	- Lattice
 	- Leaflet
@@ -27,42 +26,59 @@ Week 3 (8 hours):
 
 
 Week 4 (9 hours):
-- Continued watching RShiny tutorials
-- Explored RShiny Gallery and looked for visualization that could also used in my project
-- Renamed variables 
-- Selected relevant variables in the data set and getting rid of the ones unnecessary 
-- Got rid of irrelevant information from the data set that I found out later 
-- Fixed typos on the variable name 
-- Submitted working schedule
-- Created RShiny file
-- Added panel tabs 
-- Moved around things on GitHub to be more organized
-- Started thinking about what the app would look like 
-- Wrote a potential design of the app
+- Continued watching RShiny tutorials (4 hours)
+- Explored RShiny Gallery and looked for visualization that could also used in my project (1 hour)
+- Tidy data (1.5 hours)
+	- Renamed variables 
+	- Selected relevant variables in the data set and getting rid of the ones unnecessary 
+	- Got rid of irrelevant information from the data set that I found out later 
+	- Fixed typos on the variable name 
+- Submitted working schedule (0.5 hour)
+- Created RShiny file (0.5 hour)
+- Added panel tabs (0.5 hour)
+- Moved around things on GitHub to be more organized (0.5 hour)
+- Started thinking about what the app would look like and wrote a potential design of the app (1 hour)
 
 
 Week 5 (8 hours):
-- Went to RShiny Gallery to get some inspirations 
-- Saved tidied version of the data set
-- Created a numeric data to use it for my scatterplot visualization 
-- Added a scatterplot using Plotly
-- Read Plotly documentation and watched videos
-- Dealt with issues passing x and y argument to plot_ly() function 
-- Added labels to the scatterplot
+- Went to RShiny Gallery to get some inspirations (2 hour)
+- Saved tidied version of the data set (0.5 hour)
+- Created a numeric data to use it for my scatterplot visualization (0.5 hour)
+- Added a scatterplot using Plotly (5 hours)
+	- read Plotly documentation and watched videos 
+	- Dealt with issues passing x and y argument to plot_ly() function 
+	- Added labels to the scatterplot
 - My plan for next week:
 	- Work on having the table working
 
 
 Week 6: (9 hours)
-- Went to RShiny Gallery to get some inspirations
-- Went to see shinyWidgets to find creative filter feature to use
-- Read DataTable package documentation 
-- Implemented simple DT in the beginning
-- Fixed the filtering feature in the plot section and made sure that the plots are shown on the screen appropriately
-- Added select/deselect options at the top and have that working in the data explorer section
-- Identified some of the issues that needs to get fixed such as:
+- Went to RShiny Gallery to get some inspirations (0.5 hour)
+- Went to see shinyWidgets to find creative filter feature to use (1 hour)
+- Worked on DataTable package (5 hours)
+	- Read DataTable package documentation 
+	- Implemented simple DT in the beginning
+	- Fixed the filtering feature in the plot section and made sure that the plots are shown on the screen appropriately
+	- Added select/deselect options at the top and have that working in the data explorer section
+- Identified some of the issues that needs to get fixed such as: (0.5 hour)
 	- Region values needs to get fixed
 	- Have the name column always shown on the screen instead of having users select it
 	- Need to wrap around when using tables
 	- The hovering feature in map needs to be functional
-- Continue attempting to figure out bugs to solve issues mentioned above 
+- Continue attempting to figure out bugs to solve issues mentioned above (2 hours)
+
+
+Week 7: (14 hours)
+- Extracted only the necessary string(s) in the Region variable (0.25 hour)
+- Removing name variable from an option for users to select both in scatterplot and table (1 hour)
+- Added a feature where users can only select up to 10 variables at once and a message to warn users when they try selecting the 11th one (0.5 hour)
+- Added a feature so that Name variable always show up on table (0.5 hour)
+- Added more information to appear when users click on the arrow in map (1.5 hours)
+- Removed the max viewing boundary in map so that users are more flexible with dragging and viewing colleges on the left side (1 hour)
+- Bug-free filtering feature for map (4 hours)
+- Added line of best fit model inside the Plot panel (0.5 hour)
+- Added summary statistics information (1.5 hours)
+- Added theme and CSS for styling (1.5 hour)
+- Created final tidied data (0.25 hour)
+- Cleaned up code and added comments (0.5 hour)
+- Added About panel and description + image (1 hour)
