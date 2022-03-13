@@ -13,13 +13,61 @@ library(shinythemes)
 
 
 # Data
-data <- read.csv("data/us_college_data.csv")
+data <- read.csv("data/IPEDS.csv") %>% 
+  ## Selected the variables needed for this project
+  select(2, 5, 7:8, 22:24, 27:30, 33, 34, 65, 70:73, 75, 78, 86, 111, 124, 126, 128, 131, 134) %>% 
+  ## Renamed the variables 
+  rename(High.Degree = Highest.degree.offered,
+         Longitude = Longitude.location.of.institution,
+         Latitude = Latitude.location.of.institution,
+         Applicants = Applicants.total,
+         Admissions = Admissions.total,
+         Enrolled = Enrolled.total,
+         SAT.Reading.25 = SAT.Critical.Reading.25th.percentile.score,
+         SAT.Reading.75 = SAT.Critical.Reading.75th.percentile.score,
+         SAT.Math.25 = SAT.Math.25th.percentile.score,
+         SAT.Math.75 = SAT.Math.75th.percentile.score,
+         ACT.25 = ACT.Composite.25th.percentile.score,
+         ACT.75 = ACT.Composite.75th.percentile.score,
+         Percent.Admitted = Percent.admitted...total,
+         Tuition = Tuition.and.fees..2013.14,
+         Tuition.Instate = Total.price.for.in.state.students.living.on.campus.2013.14,
+         Tuition.Outstate = Total.price.for.out.of.state.students.living.on.campus.2013.14,
+         State = State.abbreviation,
+         Region = Geographic.region,
+         Control = Control.of.institution,
+         TEnrollment = Undergraduate.enrollment,
+         Percent.Women = Percent.of.undergraduate.enrollment.that.are.women,
+         Pecent.Instate = Percent.of.first.time.undergraduates...in.state,
+         Percent.Outstate = Percent.of.first.time.undergraduates...out.of.state,
+         Percent.Foreign = Percent.of.first.time.undergraduates...foreign.countries,
+         GradRate.4yr = Graduation.rate...Bachelor.degree.within.4.years..total,
+         Percent.Finan.Aid = Percent.of.freshmen.receiving.any.financial.aid
+  ) %>% 
+  ## Change the values in Region and High.Degree
+  mutate(Region = case_when( 
+    Region == "Southeast AL AR FL GA KY LA MS NC SC TN VA WV" ~"Southeast",
+    Region == "Far West AK CA HI NV OR WA" ~"Far West",
+    Region == "Southwest AZ NM OK TX" ~"Southwest",
+    Region == "Rocky Mountains CO ID MT UT WY" ~"Rocky Mountains",
+    Region == "New England CT ME MA NH RI VT" ~"New England",
+    Region == "Mid East DE DC MD NJ NY PA" ~"Mid East",
+    Region == "Great Lakes IL IN MI OH WI" ~"Great Lakes",
+    Region == "Plains IA KS MN MO NE ND SD" ~"Plains",
+    TRUE ~Region
+  ), High.Degree = case_when(
+    High.Degree == "Doctor's degree - research/scholarship" ~"Doctor's degree",
+    High.Degree == "Doctor's degree - research/scholarship and professional practice" ~"Doctor's degree",
+    High.Degree == "Doctor's degree -  professional practice" ~"Doctor's degree",
+    High.Degree == "Doctor's degree - other" ~"Doctor's degree",
+    TRUE ~High.Degree
+  )
+  )
 
-vars <- select_if(data, is.numeric) %>% 
-  select(-1, -2)
+vars <- select_if(data, is.numeric)
 
 tableData <- data %>% 
-  select(-1, -4, -5) 
+  select(-3, -4) 
 
 
 # Define UI
@@ -133,30 +181,6 @@ ui <- navbarPage(
                )
              )
            ),
-  ## Region Panel
-  # tabPanel("Region", ## Title
-  #          sidebarPanel(
-  #            ## Select box
-  #            selectizeInput('var', 'variable', colnames(vars)[3:length(vars)], selected = colnames(vars)[3])
-  #          ),
-  #          mainPanel(
-  #            tabsetPanel(
-  #              tabPanel("",
-  #                       ##  output
-  #                       plotlyOutput('')
-  #              ),
-  #              tabPanel("",
-  #                       ##  output
-  #                       plotlyOutput(''),
-  #                       br(),
-  #                       br(),
-  #                       fluidRow(
-  #                         style = "margin: auto; width: 600px",
-  #                         ## Text output
-  #                         verbatimTextOutput("summa"))),
-  #            )
-  #          )
-  # ),
   ## Table Panel
   tabPanel("Table", ## Title
            fluidRow(
@@ -229,7 +253,7 @@ server <- function(input, output, session) {
     }
     
     
-    ## Texts to show when users clicks the arrow
+    ## Texts to show when users clicks the pin
     mypopup <- paste("<strong>Name: </strong>", mark_data$Name,"</br>",
                      "<strong>Highest Degree Offered: </strong>", mark_data$High.Degree, "</br>",
                      "<strong>Public/Private: </strong>", mark_data$Control, "</br>",
@@ -238,16 +262,23 @@ server <- function(input, output, session) {
                      "<strong>Region: </strong>", mark_data$Region)
     
     ## Draw markers and labels
+    icons <- awesomeIcons(
+      icon = 'ios-close',
+      library = 'ion'
+    )
+    
     tryCatch(
-        leaflet() %>%
+      leaflet() %>%
         addProviderTiles(providers$CartoDB.Positron,
-                       options = providerTileOptions(noWrap = FALSE, minZoom = 3)) %>%
-        addMarkers(data = mark_data,
-                   lng = ~Longitude,
-                   lat = ~Latitude,
-                   label = ~Name,
-                   popup = mypopup,
-                   clusterOptions = markerClusterOptions()) %>%
+                         options = providerTileOptions(noWrap = FALSE, minZoom = 3)) %>%
+        addAwesomeMarkers(data = mark_data,
+                          lng = ~Longitude,
+                          lat = ~Latitude,
+                          label = ~Name,
+                          popup = mypopup,
+                          icon = icons,
+                          clusterOptions = markerClusterOptions()
+        ) %>% 
         setView(lng = -75.35, lat = 45.5, zoom = 3.49),
         ## Handles error when data not found
         error = function(c) {
@@ -256,7 +287,7 @@ server <- function(input, output, session) {
                              options = providerTileOptions(noWrap = FALSE, minZoom = 3)) %>%
             setView(lng = -75.35, lat = 45.5, zoom = 3.49)
         }
-    ) 
+    )
   })
   
   # Scatterplot
