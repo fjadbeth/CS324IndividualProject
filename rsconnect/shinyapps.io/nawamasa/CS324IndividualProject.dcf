@@ -5,10 +5,10 @@ account: nawamasa
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5843581
-bundleId: 5678675
+bundleId: 5679324
 url: https://nawamasa.shinyapps.io/CS324IndividualProject/
-when: 1647208426.09914
-lastSyncTime: 1647208426.09915
+when: 1647225634.12373
+lastSyncTime: 1647225634.12374
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: data/college_data.csv|data/IPEDS_data.csv|README.md|General:Plan
+ignoredFiles: data/IPEDS_data.csv|README.md|General:Plan

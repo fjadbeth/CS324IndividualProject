@@ -96,6 +96,7 @@ ui <- navbarPage(
                 transition-delay: 0;
             }"))
            ),
+           h1(strong("Map Explorer"), style = "text-align: center; font-family: 'Times New Roman', serif"),
            fluidRow(
              br(),
              br(),
@@ -158,6 +159,7 @@ ui <- navbarPage(
   ),
   ## Scatterplot Panel
   tabPanel("Plot", ## Title
+           h1(strong("Plot Explorer"), style = "text-align: center; font-family: 'Times New Roman', serif; margion-bottom: 60px"),
            sidebarPanel(
              ## Select box
              selectizeInput('xcol', 'X Variable', colnames(vars)[3:length(vars)], selected = colnames(vars)[3]),
@@ -184,6 +186,7 @@ ui <- navbarPage(
   ## Table Panel
   tabPanel("Table", ## Title
            fluidRow(
+             h1(strong("Data Explorer"), style = "text-align: center; font-family: 'Times New Roman', serif"),
              column(6, 
              ## Selecting variables 
              pickerInput(
@@ -218,7 +221,8 @@ ui <- navbarPage(
                     interests. The limitation of this project is that the data set is outdated. Thus, any discovery made 
                     using this visualization may not be applicable today.",
                     style= "margin: 40px; margin-top:10px"),
-                  img(src = "college.jpeg", height = "60%", width = "60%", style = 'display:block;margin-right:30%; margin-left:30%; width:40%; margin-top: 25px; margin-bottom:2px')
+                  img(src = "college.jpeg", height = "60%", width = "60%", style = 'display:block;margin-right:30%; margin-left:30%; width:40%; margin-top: 25px; margin-bottom:2px'),
+                  p("source: https://cbwestcourtstreetpress.com/2218/bucks-news/the-college-checkpoint/", style = "margin-bot:25px; font-family: 'Times New Roman' serif; font-size:12px; text-align: center")
            )
   )
 )
