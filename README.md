@@ -1,5 +1,8 @@
 # CS324IndividualProject
 
+## Documentation + Video (Grinnell College Account Required)
+- https://grinco-my.sharepoint.com/personal/nawamasa_grinnell_edu/Documents/Grinnell%20College/Third%20Year/CSC-324/CSC324%20Individual%20Project%20Folder
+
 ## Links
 - Live version: https://nawamasa.shinyapps.io/CS324IndividualProject/
 - GitHub: https://github.com/fjadbeth/CS324IndividualProject
